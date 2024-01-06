@@ -140,4 +140,15 @@ final class OrderedTaskManagerTests: XCTestCase {
 			"Не работает сортировка по приоритету в Ordered Task manager"
 		)
 	}
+
+	func test_sorted_withTasks_importantTasksShouldBeInTheBegginingOfListRegularAtTheEnd() throws {
+		let tasks = [
+			RegularTask(title: "Foo"),
+			ImportantTask(title: "Bar", taskPriority: .medium)
+		]
+		let sut = OrderedTaskManager(taskManager: TaskManager(taskList: tasks))
+		let isFirstImportantTask = sut.allTasks()[0] === tasks[1]
+
+		XCTAssertTrue(isFirstImportantTask, "Неккоректная сортировка important task с regular task")
+	}
 }
